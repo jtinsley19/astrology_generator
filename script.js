@@ -1,7 +1,8 @@
 const determineDate = (day, leap) => {
 	let daysInYear = 365;
 	if (leap) {
-		daysInYear = 366
+		daysInYear = 366;
+		day += 1;
 	}
 	
 	let month = '';
@@ -50,33 +51,36 @@ const determineDate = (day, leap) => {
 }
 
 const generateDateAndTime = () => {
-	let year = (Math.floor(Math.random() * 800) + 1600);
-	let day = 0;
+
+	let day = Math.floor(Math.random() * 1461);
 	let date = [];
 	let leap = false;
-	
-	if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+
+	let year = ((Math.floor(Math.random() * 50)) * 4) + 1900;
+	if (day <= 366) {
 		leap = true;
-		day = Math.floor(Math.random() * 366);
-		
+	} else if (day <= 731) {
+		year += 1;
+	} else if (day <= 1096) {
+		year += 2;
 	} else {
-		day = Math.floor(Math.random() * 365);
-		
+		year += 3;
 	}
-	date = determineDate(day, leap);
-	
-	
+
+	date = determineDate((day % 365 - 1), leap);
+
 	let minute = (Math.floor(Math.random() * 1440));
+	console.log(day + ' ' + minute);
+	day += (Math.round(minute / 1.44)) / 1000;
+	console.log(day);
 	let time = [Math.floor(minute / 60), (minute % 60)]
 	
 	
 	return {
-		year, date, time
+		year, date, time, day
 	};
 }
-
 
 let test1 = generateDateAndTime();
 
 console.log(test1);
-//console.log(determineSunSign(test1));
