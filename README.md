@@ -5,11 +5,11 @@ Nodejs randomized astrology console app
 ## Table of contents
 - [General Info](#general-info)
 - [Technologies](#technologies)
-- 
+- [Setup](#setup)
 
 ## General info
 
-Creates a random year, date, and time, and determines sun, moon, and ascendant signs
+Creates a random year, date, and time, and determines sun sign
 
 ## Technologies
 
