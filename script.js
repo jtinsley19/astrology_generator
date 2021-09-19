@@ -60,21 +60,23 @@ const generateDateAndTime = () => {
 	let year = ((Math.floor(Math.random() * 50)) * 4) + 1900;
 	if (day < 366) {
 		leap = true;
+		date = determineDate(day);
 	} else if (day < 731) {
 		year += 1;
+		date = determineDate((day - 366) % 365);
 	} else if (day < 1096) {
 		year += 2;
+		date = determineDate((day - 366) % 365);
 	} else {
 		year += 3;
+		date = determineDate((day - 366) % 365);
 	}
-
-	date = determineDate((day % 365 - 1), leap);
 
 	let minute = (Math.floor(Math.random() * 1440));
 	day += ((Math.round(minute / 1.44)) / 1000);
 	let time = [Math.floor(minute / 60), (minute % 60)]
 	
-	let adjustedDate = ((Math.floor((year - 2000) / 4)) * 1461) + day;
+	let adjustedDate = (((Math.floor((year - 2000) / 4)) * 1461) + day) - 79.317;
 
 	return {
 		year, date, time, day, adjustedDate, sign
@@ -83,9 +85,8 @@ const generateDateAndTime = () => {
 
 
 const determineSunSign = (obj) => {
-	let degree = Math.abs(((obj.adjustedDate % 365.06825) / 365.06825) * 360);
-	console.log(degree)
-
+	let degree = Math.abs((((obj.adjustedDate % 365.24273) + 365.24273) % 365.24273) / 365.24273 ) * 360;
+	console.log(degree);
 	if (degree < 30) {
 		return 'Aries';
 	} else if (degree < 60) {
