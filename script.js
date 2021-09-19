@@ -78,44 +78,59 @@ const generateDateAndTime = () => {
 	
 	let adjustedDate = (((Math.floor((year - 2000) / 4)) * 1461) + day) - 79.317;
 
+	let degree = Math.abs((((adjustedDate % 365.24273) + 365.24273) % 365.24273) / 365.24273 ) * 360;
+	let readableDegree = [Math.floor(degree % 30), Math.floor(((degree % 30) % 1) * 60)];
+
 	return {
-		year, date, time, day, adjustedDate, sign
+		year, date, time, day, adjustedDate, sign, degree, readableDegree
 	};
 }
 
 
 const determineSunSign = (obj) => {
-	let degree = Math.abs((((obj.adjustedDate % 365.24273) + 365.24273) % 365.24273) / 365.24273 ) * 360;
-	console.log(degree);
-	if (degree < 30) {
+	if (obj.degree < 30) {
 		return 'Aries';
-	} else if (degree < 60) {
+	} else if (obj.degree < 60) {
 		return 'Taurus';
-	} else if (degree < 90) {
+	} else if (obj.degree < 90) {
 		return 'Gemini';
-	} else if (degree < 120) {
+	} else if (obj.degree < 120) {
 		return 'Cancer';
-	} else if (degree < 150) {
+	} else if (obj.degree < 150) {
 		return 'Leo';
-	} else if (degree < 180) {
+	} else if (obj.degree < 180) {
 		return 'Virgo';
-	} else if (degree < 210) {
+	} else if (obj.degree < 210) {
 		return 'Libra';
-	} else if (degree < 240) {
+	} else if (obj.degree < 240) {
 		return 'Scorpio';
-	} else if (degree < 270) {
+	} else if (obj.degree < 270) {
 		return 'Sagittarius';
-	} else if (degree < 300) {
+	} else if (obj.degree < 300) {
 		return 'Capricorn';
-	} else if (degree < 330) {
+	} else if (obj.degree < 330) {
 		return 'Aquarius';
-	} else if (degree < 360) {
+	} else if (obj.degree < 360) {
 		return 'Pisces';
 	} else {
 		return 'Aries';
 	}
 }
 
-let test1 = generateDateAndTime();
-test1.sign = determineSunSign(test1);
-console.log(test1);
+let createChart = () => {
+	let newChart = generateDateAndTime();
+	newChart.sign = determineSunSign(newChart);
+	
+	let secondDigitHour = '';
+	let secondDigit = '';
+	if (newChart.time[0] < 10) {
+		secondDigitHour = '0';
+	}
+	if (newChart.time[1] < 10) {
+		secondDigit = '0';
+	}
+	console.log(newChart);
+	console.log(`For a person born on ${newChart.date[0]} ${newChart.date[1]}, ${newChart.year} at ${secondDigitHour}${newChart.time[0]}:${secondDigit}${newChart.time[1]} UTC, the sun was in the sign of ${newChart.sign} at ${newChart.readableDegree[0]} degrees, ${newChart.readableDegree[1]} minutes.`)
+}
+
+createChart();
